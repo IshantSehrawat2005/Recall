@@ -103,3 +103,61 @@
     background: hsl(var(--primary));
   }
 }
+
+@keyframes blob1 {
+  0%, 100% { transform: scale(1) translate(0, 0); }
+  33% { transform: scale(1.1) translate(30px, -20px); }
+  66% { transform: scale(0.9) translate(-20px, 20px); }
+}
+@keyframes blob2 {
+  0%, 100% { transform: scale(1) translate(0, 0); }
+  33% { transform: scale(1.05) translate(-20px, 30px); }
+  66% { transform: scale(0.95) translate(20px, -10px); }
+}
+@keyframes blob3 {
+  0%, 100% { transform: scale(1) translate(0, 0); }
+  33% { transform: scale(1.08) translate(10px, 20px); }
+  66% { transform: scale(0.92) translate(-10px, -20px); }
+}
+.animate-blob1 { animation: blob1 18s ease-in-out infinite; }
+.animate-blob2 { animation: blob2 22s ease-in-out infinite; }
+.animate-blob3 { animation: blob3 26s ease-in-out infinite; }
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+.animate-typing {
+  animation: typing 2.5s steps(30, end) 1 normal both;
+}
+
+@keyframes fadein {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadein {
+  animation: fadein 1.2s cubic-bezier(0.4,0,0.2,1) 1 normal both;
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 1.2s cubic-bezier(0.4,0,0.2,1) both;
+}
+
+/* Frosted glass effect for dark mode */
+.dark .glass {
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border-radius: 1rem;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Make sure dark mode is pitch black */
+.dark {
+  --tw-bg-opacity: 1 !important;
+  background-color: #000 !important;
+}

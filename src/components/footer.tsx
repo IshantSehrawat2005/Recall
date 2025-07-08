@@ -5,7 +5,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700">
+    <footer className="w-full bg-white dark:bg-black glass border-t border-gray-200 dark:border-black py-4">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           {/* Product Column */}
@@ -177,7 +177,7 @@ export default function Footer() {
           <div className="flex items-center gap-2 mb-4 md:mb-0">
             <BookOpen className="w-5 h-5 text-slate-600 dark:text-slate-400" />
             <span className="text-slate-600 dark:text-slate-400">
-              © {currentYear} Recall. Mindful learning for everyone.
+              © {currentYear} Recall. Effortlessly capture, organize, and discover insights from your web learning moments.
             </span>
           </div>
 

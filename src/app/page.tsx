@@ -33,33 +33,7 @@ import {
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [activeSection, setActiveSection] = useState("");
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (scrollTop / docHeight) * 100;
-      setScrollProgress(progress);
-
-      // Determine active section
-      const sections = ["hero", "features", "how-it-works", "faq", "cta"];
-      const sectionElements = sections.map((id) => document.getElementById(id));
-
-      for (let i = sectionElements.length - 1; i >= 0; i--) {
-        const element = sectionElements[i];
-        if (element && element.getBoundingClientRect().top <= 100) {
-          setActiveSection(sections[i]);
-          break;
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // Remove scrollProgress and activeSection state and related useEffects
 
   useEffect(() => {
     const observerOptions = {
@@ -82,52 +56,24 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-800 relative">
-      {/* Progress Line */}
-      <div className="fixed left-8 top-0 z-50 h-full w-1 bg-slate-200 dark:bg-slate-700">
-        <div
-          className="w-full bg-gradient-to-b from-indigo-500 to-purple-600 transition-all duration-300 ease-out"
-          style={{ height: `${scrollProgress}%` }}
-        />
-        {/* Section Indicators */}
-        <div
-          className="absolute top-20 -left-2 w-5 h-5 rounded-full bg-indigo-500 border-4 border-white dark:border-slate-900 transition-all duration-300"
-          style={{ opacity: activeSection === "hero" ? 1 : 0.3 }}
-        />
-        <div
-          className="absolute top-1/4 -left-2 w-5 h-5 rounded-full bg-purple-500 border-4 border-white dark:border-slate-900 transition-all duration-300"
-          style={{ opacity: activeSection === "features" ? 1 : 0.3 }}
-        />
-        <div
-          className="absolute top-2/4 -left-2 w-5 h-5 rounded-full bg-emerald-500 border-4 border-white dark:border-slate-900 transition-all duration-300"
-          style={{ opacity: activeSection === "how-it-works" ? 1 : 0.3 }}
-        />
-        <div
-          className="absolute top-3/4 -left-2 w-5 h-5 rounded-full bg-amber-500 border-4 border-white dark:border-slate-900 transition-all duration-300"
-          style={{ opacity: activeSection === "faq" ? 1 : 0.3 }}
-        />
-        <div
-          className="absolute bottom-20 -left-2 w-5 h-5 rounded-full bg-blue-500 border-4 border-white dark:border-slate-900 transition-all duration-300"
-          style={{ opacity: activeSection === "cta" ? 1 : 0.3 }}
-        />
-      </div>
-
-      <div className="ml-16">
+    <div className="min-h-screen bg-white dark:bg-black relative overflow-hidden">
+      {/* Animated gradient blobs for interactivity (removed for pure black) */}
+      {/* Main content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-2 sm:px-4">
         <Navbar />
-        <section id="hero">
+        <section id="hero" className="mb-4">
           <Hero />
         </section>
-
         {/* Features Section */}
-        <section id="features" className="py-24 bg-white dark:bg-slate-800">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16 animate-on-scroll">
-              <Badge variant="outline" className="mb-4">
+        <section id="features" className="py-12 bg-white dark:bg-black">
+          <div className="container mx-auto px-2">
+            <div className="text-center mb-8">
+              <Badge variant="outline" className="mb-2">
                 <Lightbulb className="w-3 h-3 mr-1" />
                 Core Features
               </Badge>
-              <h2 className="text-3xl font-bold mb-4 text-slate-900 dark:text-slate-100">
-                Organize, Contextualize & Discover Your Learning
+              <h2 className="text-4xl font-bold mb-4 text-slate-900 dark:text-slate-100 animate-fade-in-up">
+                Organize, <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-500 hover:from-cyan-500 hover:to-teal-400 transition-colors duration-300 cursor-pointer">Contextualize</span> & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500 hover:from-pink-500 hover:to-purple-600 transition-colors duration-300 cursor-pointer">Discover</span> Your Learning
               </h2>
               <p className="text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
                 Save highlights from any website, organize by topics, add
@@ -135,9 +81,9 @@ export default function Home() {
                 journey - all in one intelligent workspace.
               </p>
             </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <Card className="border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all duration-300 hover:scale-105 animate-on-scroll">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Cards with glass effect */}
+              <Card className="glass border-none shadow-lg dark:bg-black/60 dark:text-white">
                 <CardHeader>
                   <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center mb-4 transition-transform duration-300 hover:rotate-12">
                     <BookOpen className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
@@ -153,7 +99,7 @@ export default function Home() {
                 </CardHeader>
               </Card>
 
-              <Card className="border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all duration-300 hover:scale-105 animate-on-scroll">
+              <Card className="glass border-none shadow-lg dark:bg-black/60 dark:text-white">
                 <CardHeader>
                   <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-4 transition-transform duration-300 hover:rotate-12">
                     <Brain className="w-6 h-6 text-purple-600 dark:text-purple-400" />
@@ -169,7 +115,7 @@ export default function Home() {
                 </CardHeader>
               </Card>
 
-              <Card className="border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all duration-300 hover:scale-105 animate-on-scroll">
+              <Card className="glass border-none shadow-lg dark:bg-black/60 dark:text-white">
                 <CardHeader>
                   <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg flex items-center justify-center mb-4 transition-transform duration-300 hover:rotate-12">
                     <BarChart3 className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
@@ -185,7 +131,7 @@ export default function Home() {
                 </CardHeader>
               </Card>
 
-              <Card className="border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all duration-300 hover:scale-105 animate-on-scroll">
+              <Card className="glass border-none shadow-lg dark:bg-black/60 dark:text-white">
                 <CardHeader>
                   <div className="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-lg flex items-center justify-center mb-4 transition-transform duration-300 hover:rotate-12">
                     <Lightbulb className="w-6 h-6 text-amber-600 dark:text-amber-400" />
@@ -201,7 +147,7 @@ export default function Home() {
                 </CardHeader>
               </Card>
 
-              <Card className="border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all duration-300 hover:scale-105 animate-on-scroll">
+              <Card className="glass border-none shadow-lg dark:bg-black/60 dark:text-white">
                 <CardHeader>
                   <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-4 transition-transform duration-300 hover:rotate-12">
                     <Heart className="w-6 h-6 text-blue-600 dark:text-blue-400" />
@@ -217,7 +163,7 @@ export default function Home() {
                 </CardHeader>
               </Card>
 
-              <Card className="border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all duration-300 hover:scale-105 animate-on-scroll">
+              <Card className="glass border-none shadow-lg dark:bg-black/60 dark:text-white">
                 <CardHeader>
                   <div className="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center justify-center mb-4 transition-transform duration-300 hover:rotate-12">
                     <Search className="w-6 h-6 text-slate-600 dark:text-slate-400" />
@@ -238,16 +184,16 @@ export default function Home() {
         {/* How It Works Section */}
         <section
           id="how-it-works"
-          className="py-24 bg-slate-50 dark:bg-slate-900"
+          className="py-12 bg-white dark:bg-black"
         >
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16 animate-on-scroll">
-              <Badge variant="outline" className="mb-4">
+          <div className="container mx-auto px-2">
+            <div className="text-center mb-8">
+              <Badge variant="outline" className="mb-2">
                 <BookOpen className="w-3 h-3 mr-1" />
                 Simple Process
               </Badge>
-              <h2 className="text-3xl font-bold mb-4 text-slate-900 dark:text-slate-100">
-                Build Your Knowledge Empire in Three Steps
+              <h2 className="text-4xl font-bold mb-4 text-slate-900 dark:text-slate-100 animate-fade-in-up">
+                Build Your Knowledge Empire in <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors duration-300 cursor-pointer">Three Steps</span>
               </h2>
               <p className="text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
                 From scattered highlights to organized insights - create your
@@ -257,8 +203,8 @@ export default function Home() {
 
             <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
               <div className="text-center animate-on-scroll">
-                <div className="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center mx-auto mb-6 transition-all duration-300 hover:scale-110 hover:shadow-lg">
-                  <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
+                <div className="w-16 h-16 glass bg-indigo-100 dark:bg-black/60 rounded-full flex items-center justify-center mx-auto mb-6 transition-all duration-300 hover:scale-110 hover:shadow-lg">
+                  <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-200">
                     1
                   </span>
                 </div>
@@ -273,8 +219,8 @@ export default function Home() {
               </div>
 
               <div className="text-center animate-on-scroll">
-                <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mx-auto mb-6 transition-all duration-300 hover:scale-110 hover:shadow-lg">
-                  <span className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                <div className="w-16 h-16 glass bg-purple-100 dark:bg-black/60 rounded-full flex items-center justify-center mx-auto mb-6 transition-all duration-300 hover:scale-110 hover:shadow-lg">
+                  <span className="text-2xl font-bold text-purple-600 dark:text-purple-200">
                     2
                   </span>
                 </div>
@@ -289,8 +235,8 @@ export default function Home() {
               </div>
 
               <div className="text-center animate-on-scroll">
-                <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mx-auto mb-6 transition-all duration-300 hover:scale-110 hover:shadow-lg">
-                  <span className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+                <div className="w-16 h-16 glass bg-emerald-100 dark:bg-black/60 rounded-full flex items-center justify-center mx-auto mb-6 transition-all duration-300 hover:scale-110 hover:shadow-lg">
+                  <span className="text-2xl font-bold text-emerald-600 dark:text-emerald-200">
                     3
                   </span>
                 </div>
@@ -308,15 +254,15 @@ export default function Home() {
         </section>
 
         {/* FAQ Section */}
-        <section id="faq" className="py-24 bg-white dark:bg-slate-800">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16 animate-on-scroll">
-              <Badge variant="outline" className="mb-4">
+        <section id="faq" className="py-12 bg-white dark:bg-black">
+          <div className="container mx-auto px-2">
+            <div className="text-center mb-8 animate-on-scroll">
+              <Badge variant="outline" className="mb-2">
                 <Brain className="w-3 h-3 mr-1" />
                 Frequently Asked Questions
               </Badge>
-              <h2 className="text-3xl font-bold mb-4 text-slate-900 dark:text-slate-100">
-                Everything You Need to Know
+              <h2 className="text-3xl font-bold mb-2 text-slate-900 dark:text-slate-100">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 hover:from-purple-600 hover:to-blue-500 transition-colors duration-300 cursor-pointer">Everything You Need to Know</span>
               </h2>
               <p className="text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
                 Learn how Recall transforms your web browsing into meaningful
@@ -451,11 +397,11 @@ export default function Home() {
         </section>
 
         {/* CTA Section */}
-        <section id="cta" className="py-24 bg-slate-50 dark:bg-slate-900">
-          <div className="container mx-auto px-4 text-center">
+        <section id="cta" className="py-24 bg-white dark:bg-black">
+          <div className="container mx-auto px-2 text-center">
             <div className="max-w-2xl mx-auto animate-on-scroll">
-              <h2 className="text-3xl font-bold mb-4 text-slate-900 dark:text-slate-100">
-                Start Your Learning Journey
+              <h2 className="text-4xl font-bold mb-6 text-slate-900 dark:text-slate-100">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">Start Your Learning Journey</span>
               </h2>
               <p className="text-slate-600 dark:text-slate-300 mb-8">
                 Transform how you capture and reflect on knowledge. Begin
