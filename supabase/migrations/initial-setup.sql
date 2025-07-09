@@ -1,6 +1,6 @@
 -- Combined migration file that includes all necessary database setup
 
--- Users table
+-- Users table with complete profile fields
 CREATE TABLE IF NOT EXISTS public.users (
     id uuid PRIMARY KEY NOT NULL,
     avatar_url text,
@@ -11,7 +11,15 @@ CREATE TABLE IF NOT EXISTS public.users (
     updated_at timestamp with time zone,
     email text,
     name text,
-    full_name text
+    full_name text,
+    -- Profile fields
+    display_name text,
+    bio text,
+    date_of_birth date,
+    gender text,
+    reason text,
+    interests text,
+    profile_completed boolean DEFAULT false
 );
 
 -- Add RLS (Row Level Security) policies
@@ -30,6 +38,88 @@ BEGIN
         -- Create policy to allow users to see only their own data
         EXECUTE 'CREATE POLICY "Users can view own data" ON public.users
                 FOR SELECT USING (auth.uid()::text = user_id)';
+    END IF;
+
+    -- Check if the policy for users update exists
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_policies 
+        WHERE schemaname = 'public' 
+        AND tablename = 'users' 
+        AND policyname = 'Users can update own data'
+    ) THEN
+        -- Create policy to allow users to update only their own data
+        EXECUTE 'CREATE POLICY "Users can update own data" ON public.users
+                FOR UPDATE USING (auth.uid()::text = user_id)';
+    END IF;
+
+END
+$$;
+
+-- Highlights table
+CREATE TABLE IF NOT EXISTS public.highlights (
+    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id uuid REFERENCES public.users(id) ON DELETE CASCADE,
+    text text NOT NULL,
+    source text,
+    tags text[],
+    mood text,
+    reflection text,
+    created_at timestamp with time zone DEFAULT timezone('utc'::text, now()),
+    updated_at timestamp with time zone DEFAULT timezone('utc'::text, now())
+);
+
+-- Add RLS for highlights
+ALTER TABLE public.highlights ENABLE ROW LEVEL SECURITY;
+
+-- Create policies for highlights
+DO $$
+BEGIN
+    -- Check if the policy for highlights exists
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_policies 
+        WHERE schemaname = 'public' 
+        AND tablename = 'highlights' 
+        AND policyname = 'Users can view own highlights'
+    ) THEN
+        -- Create policy to allow users to see only their own highlights
+        EXECUTE 'CREATE POLICY "Users can view own highlights" ON public.highlights
+                FOR SELECT USING (auth.uid() = user_id)';
+    END IF;
+
+    -- Check if the policy for highlights insert exists
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_policies 
+        WHERE schemaname = 'public' 
+        AND tablename = 'highlights' 
+        AND policyname = 'Users can insert own highlights'
+    ) THEN
+        -- Create policy to allow users to insert their own highlights
+        EXECUTE 'CREATE POLICY "Users can insert own highlights" ON public.highlights
+                FOR INSERT WITH CHECK (auth.uid() = user_id)';
+    END IF;
+
+    -- Check if the policy for highlights update exists
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_policies 
+        WHERE schemaname = 'public' 
+        AND tablename = 'highlights' 
+        AND policyname = 'Users can update own highlights'
+    ) THEN
+        -- Create policy to allow users to update their own highlights
+        EXECUTE 'CREATE POLICY "Users can update own highlights" ON public.highlights
+                FOR UPDATE USING (auth.uid() = user_id)';
+    END IF;
+
+    -- Check if the policy for highlights delete exists
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_policies 
+        WHERE schemaname = 'public' 
+        AND tablename = 'highlights' 
+        AND policyname = 'Users can delete own highlights'
+    ) THEN
+        -- Create policy to allow users to delete their own highlights
+        EXECUTE 'CREATE POLICY "Users can delete own highlights" ON public.highlights
+                FOR DELETE USING (auth.uid() = user_id)';
     END IF;
 
 END

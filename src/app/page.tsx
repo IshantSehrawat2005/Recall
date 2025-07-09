@@ -30,11 +30,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function Home() {
-  // Remove scrollProgress and activeSection state and related useEffects
-
   useEffect(() => {
     const observerOptions = {
       threshold: 0.1,
@@ -64,15 +62,15 @@ export default function Home() {
         <section id="hero" className="mb-4">
           <Hero />
         </section>
-        {/* Features Section */}
-        <section id="features" className="py-12 bg-white dark:bg-black">
-          <div className="container mx-auto px-2">
-            <div className="text-center mb-8">
+        {/* How it works / feature icons section */}
+        <section id="how-it-works" className="mb-20 mt-8">
+          <div className="container mx-auto px-6 sm:px-8 md:px-16">
+            <div className="text-center mb-12">
               <Badge variant="outline" className="mb-2">
                 <Lightbulb className="w-3 h-3 mr-1" />
                 Core Features
               </Badge>
-              <h2 className="text-4xl font-bold mb-4 text-slate-900 dark:text-slate-100 animate-fade-in-up">
+              <h2 className="text-4xl md:text-5xl font-extrabold animated-gradient text-3d text-center mb-4 animate-fade-in-up">
                 Organize, <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-500 hover:from-cyan-500 hover:to-teal-400 transition-colors duration-300 cursor-pointer">Contextualize</span> & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500 hover:from-pink-500 hover:to-purple-600 transition-colors duration-300 cursor-pointer">Discover</span> Your Learning
               </h2>
               <p className="text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
@@ -81,9 +79,9 @@ export default function Home() {
                 journey - all in one intelligent workspace.
               </p>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-3 gap-12 md:gap-x-20 md:gap-y-16">
               {/* Cards with glass effect */}
-              <Card className="glass border-none shadow-lg dark:bg-black/60 dark:text-white">
+              <Card className="card-animate glass rounded-2xl border border-white/20 shadow-2xl p-6 mb-4 animate-fade-in-up">
                 <CardHeader>
                   <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center mb-4 transition-transform duration-300 hover:rotate-12">
                     <BookOpen className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
@@ -99,7 +97,7 @@ export default function Home() {
                 </CardHeader>
               </Card>
 
-              <Card className="glass border-none shadow-lg dark:bg-black/60 dark:text-white">
+              <Card className="card-animate glass rounded-2xl border border-white/20 shadow-2xl p-6 mb-4 animate-fade-in-up">
                 <CardHeader>
                   <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-4 transition-transform duration-300 hover:rotate-12">
                     <Brain className="w-6 h-6 text-purple-600 dark:text-purple-400" />
@@ -115,7 +113,7 @@ export default function Home() {
                 </CardHeader>
               </Card>
 
-              <Card className="glass border-none shadow-lg dark:bg-black/60 dark:text-white">
+              <Card className="card-animate glass rounded-2xl border border-white/20 shadow-2xl p-6 mb-4 animate-fade-in-up">
                 <CardHeader>
                   <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg flex items-center justify-center mb-4 transition-transform duration-300 hover:rotate-12">
                     <BarChart3 className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
@@ -131,7 +129,7 @@ export default function Home() {
                 </CardHeader>
               </Card>
 
-              <Card className="glass border-none shadow-lg dark:bg-black/60 dark:text-white">
+              <Card className="card-animate glass rounded-2xl border border-white/20 shadow-2xl p-6 mb-4 animate-fade-in-up">
                 <CardHeader>
                   <div className="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-lg flex items-center justify-center mb-4 transition-transform duration-300 hover:rotate-12">
                     <Lightbulb className="w-6 h-6 text-amber-600 dark:text-amber-400" />
@@ -147,7 +145,7 @@ export default function Home() {
                 </CardHeader>
               </Card>
 
-              <Card className="glass border-none shadow-lg dark:bg-black/60 dark:text-white">
+              <Card className="card-animate glass rounded-2xl border border-white/20 shadow-2xl p-6 mb-4 animate-fade-in-up">
                 <CardHeader>
                   <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-4 transition-transform duration-300 hover:rotate-12">
                     <Heart className="w-6 h-6 text-blue-600 dark:text-blue-400" />
@@ -163,7 +161,7 @@ export default function Home() {
                 </CardHeader>
               </Card>
 
-              <Card className="glass border-none shadow-lg dark:bg-black/60 dark:text-white">
+              <Card className="card-animate glass rounded-2xl border border-white/20 shadow-2xl p-6 mb-4 animate-fade-in-up">
                 <CardHeader>
                   <div className="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center justify-center mb-4 transition-transform duration-300 hover:rotate-12">
                     <Search className="w-6 h-6 text-slate-600 dark:text-slate-400" />
@@ -181,72 +179,50 @@ export default function Home() {
           </div>
         </section>
 
-        {/* How It Works Section */}
-        <section
-          id="how-it-works"
-          className="py-12 bg-white dark:bg-black"
-        >
-          <div className="container mx-auto px-2">
-            <div className="text-center mb-8">
+        {/* How it works section */}
+        <section id="how-it-works" className="mb-20 mt-20">
+          <div className="container mx-auto px-6 sm:px-8 md:px-16">
+            <div className="text-center mb-12">
               <Badge variant="outline" className="mb-2">
-                <BookOpen className="w-3 h-3 mr-1" />
-                Simple Process
+                <Clock className="w-3 h-3 mr-1" />
+                How It Works
               </Badge>
-              <h2 className="text-4xl font-bold mb-4 text-slate-900 dark:text-slate-100 animate-fade-in-up">
-                Build Your Knowledge Empire in <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors duration-300 cursor-pointer">Three Steps</span>
+              <h2 className="text-4xl md:text-5xl font-extrabold animated-gradient text-3d text-center mb-4 animate-fade-in-up">
+                Simple Steps to <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Organized Learning</span>
               </h2>
-              <p className="text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-                From scattered highlights to organized insights - create your
-                personal learning system.
+              <p className="text-lg text-muted-foreground text-center mb-8 animate-fade-in-up">
+                Get started with Recall in just a few simple steps
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-              <div className="text-center animate-on-scroll">
-                <div className="w-16 h-16 glass bg-indigo-100 dark:bg-black/60 rounded-full flex items-center justify-center mx-auto mb-6 transition-all duration-300 hover:scale-110 hover:shadow-lg">
-                  <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-200">
-                    1
-                  </span>
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">1</span>
                 </div>
-                <h3 className="text-xl font-semibold mb-3 text-slate-900 dark:text-slate-100">
-                  Highlight & Capture
-                </h3>
+                <h3 className="text-xl font-semibold mb-2 text-slate-900 dark:text-slate-100">Capture Highlights</h3>
                 <p className="text-slate-600 dark:text-slate-400">
-                  Select text from any website and instantly save it with
-                  automatic topic detection and AI-generated context to enhance
-                  understanding.
+                  Save important text from any website with our browser extension or web app
                 </p>
               </div>
 
-              <div className="text-center animate-on-scroll">
-                <div className="w-16 h-16 glass bg-purple-100 dark:bg-black/60 rounded-full flex items-center justify-center mx-auto mb-6 transition-all duration-300 hover:scale-110 hover:shadow-lg">
-                  <span className="text-2xl font-bold text-purple-600 dark:text-purple-200">
-                    2
-                  </span>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl font-bold text-purple-600 dark:text-purple-400">2</span>
                 </div>
-                <h3 className="text-xl font-semibold mb-3 text-slate-900 dark:text-slate-100">
-                  Organize & Connect
-                </h3>
+                <h3 className="text-xl font-semibold mb-2 text-slate-900 dark:text-slate-100">AI Processing</h3>
                 <p className="text-slate-600 dark:text-slate-400">
-                  Create notes, link related ideas, and organize everything by
-                  topics. Build a comprehensive knowledge base from all your
-                  sources.
+                  Our AI automatically tags, categorizes, and generates context for your highlights
                 </p>
               </div>
 
-              <div className="text-center animate-on-scroll">
-                <div className="w-16 h-16 glass bg-emerald-100 dark:bg-black/60 rounded-full flex items-center justify-center mx-auto mb-6 transition-all duration-300 hover:scale-110 hover:shadow-lg">
-                  <span className="text-2xl font-bold text-emerald-600 dark:text-emerald-200">
-                    3
-                  </span>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl font-bold text-green-600 dark:text-green-400">3</span>
                 </div>
-                <h3 className="text-xl font-semibold mb-3 text-slate-900 dark:text-slate-100">
-                  Gain Insights
-                </h3>
+                <h3 className="text-xl font-semibold mb-2 text-slate-900 dark:text-slate-100">Discover Insights</h3>
                 <p className="text-slate-600 dark:text-slate-400">
-                  Discover patterns in your learning, get personalized
-                  recommendations, and watch your knowledge network grow with
-                  real-time insights.
+                  Explore connections, patterns, and insights across your knowledge base
                 </p>
               </div>
             </div>
@@ -254,166 +230,65 @@ export default function Home() {
         </section>
 
         {/* FAQ Section */}
-        <section id="faq" className="py-12 bg-white dark:bg-black">
-          <div className="container mx-auto px-2">
-            <div className="text-center mb-8 animate-on-scroll">
+        <section id="faq" className="mb-20 mt-20">
+          <div className="container mx-auto px-6 sm:px-8 md:px-16">
+            <div className="text-center mb-12">
               <Badge variant="outline" className="mb-2">
-                <Brain className="w-3 h-3 mr-1" />
-                Frequently Asked Questions
+                <Search className="w-3 h-3 mr-1" />
+                FAQ
               </Badge>
-              <h2 className="text-3xl font-bold mb-2 text-slate-900 dark:text-slate-100">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 hover:from-purple-600 hover:to-blue-500 transition-colors duration-300 cursor-pointer">Everything You Need to Know</span>
+              <h2 className="text-4xl md:text-5xl font-extrabold animated-gradient text-3d text-center mb-4 animate-fade-in-up">
+                Frequently Asked <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Questions</span>
               </h2>
-              <p className="text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-                Learn how Recall transforms your web browsing into meaningful
-                learning experiences.
-              </p>
             </div>
 
-            <div className="max-w-4xl mx-auto animate-on-scroll">
-              <Accordion type="single" collapsible className="space-y-4">
-                <AccordionItem
-                  value="item-1"
-                  className="border border-slate-200 dark:border-slate-700 rounded-lg px-6 bg-white dark:bg-slate-900/50 hover:shadow-lg transition-all duration-300"
-                >
-                  <AccordionTrigger className="text-slate-900 dark:text-slate-100 hover:no-underline">
-                    <div className="flex items-center gap-3">
-                      <BookOpen className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-                      How do I capture highlights from websites?
-                    </div>
+            <div className="max-w-3xl mx-auto">
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="item-1">
+                  <AccordionTrigger className="text-left">
+                    How does Recall organize my highlights?
                   </AccordionTrigger>
-                  <AccordionContent className="text-slate-600 dark:text-slate-400 pt-2">
-                    Simply select any text on a website while browsing. Recall
-                    will capture the highlighted text along with the source URL,
-                    allowing you to save meaningful passages instantly. You can
-                    then add your personal reflections and emotional context to
-                    create rich learning moments.
+                  <AccordionContent>
+                    Recall uses AI to automatically categorize your highlights by topics, themes, and concepts. You can also create custom tags and categories to organize your knowledge exactly how you want.
                   </AccordionContent>
                 </AccordionItem>
 
-                <AccordionItem
-                  value="item-2"
-                  className="border border-slate-200 dark:border-slate-700 rounded-lg px-6 bg-white dark:bg-slate-900/50 hover:shadow-lg transition-all duration-300"
-                >
-                  <AccordionTrigger className="text-slate-900 dark:text-slate-100 hover:no-underline">
-                    <div className="flex items-center gap-3">
-                      <Heart className="w-5 h-5 text-amber-600 dark:text-amber-400" />
-                      What makes this different from regular bookmarking?
-                    </div>
+                <AccordionItem value="item-2">
+                  <AccordionTrigger className="text-left">
+                    Can I use Recall on any website?
                   </AccordionTrigger>
-                  <AccordionContent className="text-slate-600 dark:text-slate-400 pt-2">
-                    Unlike bookmarks that just save links, Recall captures the
-                    specific text that caught your attention, your personal
-                    insights about it, and your emotional response. This creates
-                    a searchable timeline of learning moments with context,
-                    making it easy to rediscover and build upon your knowledge
-                    over time.
+                  <AccordionContent>
+                    Yes! Recall works on any website. You can highlight text directly in your browser or copy and paste content into our web app. We're also developing browser extensions for even easier capture.
                   </AccordionContent>
                 </AccordionItem>
 
-                <AccordionItem
-                  value="item-3"
-                  className="border border-slate-200 dark:border-slate-700 rounded-lg px-6 bg-white dark:bg-slate-900/50 hover:shadow-lg transition-all duration-300"
-                >
-                  <AccordionTrigger className="text-slate-900 dark:text-slate-100 hover:no-underline">
-                    <div className="flex items-center gap-3">
-                      <Filter className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-                      How can I organize and find my saved content?
-                    </div>
+                <AccordionItem value="item-3">
+                  <AccordionTrigger className="text-left">
+                    Is my data secure and private?
                   </AccordionTrigger>
-                  <AccordionContent className="text-slate-600 dark:text-slate-400 pt-2">
-                    Recall offers multiple ways to organize your learning:
-                    filter by mood to find content that resonated emotionally,
-                    sort by source to see patterns in your reading habits, or
-                    search by topic tags. The clean timeline view makes it easy
-                    to browse chronologically, while powerful search helps you
-                    find specific insights instantly.
+                  <AccordionContent>
+                    Absolutely. Your highlights and personal data are encrypted and stored securely. We never share your data with third parties, and you have complete control over your information.
                   </AccordionContent>
                 </AccordionItem>
 
-                <AccordionItem
-                  value="item-4"
-                  className="border border-slate-200 dark:border-slate-700 rounded-lg px-6 bg-white dark:bg-slate-900/50 hover:shadow-lg transition-all duration-300"
-                >
-                  <AccordionTrigger className="text-slate-900 dark:text-slate-100 hover:no-underline">
-                    <div className="flex items-center gap-3">
-                      <BarChart3 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-                      What insights can I discover about my learning patterns?
-                    </div>
+                <AccordionItem value="item-4">
+                  <AccordionTrigger className="text-left">
+                    How does the AI help me learn better?
                   </AccordionTrigger>
-                  <AccordionContent className="text-slate-600 dark:text-slate-400 pt-2">
-                    The insights page reveals fascinating patterns in your
-                    learning journey. See which topics you explore most, how
-                    your mood correlates with different types of content, and
-                    track your intellectual growth over time. These
-                    visualizations help you understand your learning preferences
-                    and discover new areas of interest.
+                  <AccordionContent>
+                    Our AI analyzes your highlights to identify patterns, suggest related topics, generate summaries, and help you understand connections between different concepts. It's like having a personal learning assistant.
                   </AccordionContent>
                 </AccordionItem>
 
-                <AccordionItem
-                  value="item-5"
-                  className="border border-slate-200 dark:border-slate-700 rounded-lg px-6 bg-white dark:bg-slate-900/50 hover:shadow-lg transition-all duration-300"
-                >
-                  <AccordionTrigger className="text-slate-900 dark:text-slate-100 hover:no-underline">
-                    <div className="flex items-center gap-3">
-                      <Search className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                      Can I search through all my saved highlights and
-                      reflections?
-                    </div>
+                <AccordionItem value="item-5">
+                  <AccordionTrigger className="text-left">
+                    Can I export my highlights?
                   </AccordionTrigger>
-                  <AccordionContent className="text-slate-600 dark:text-slate-400 pt-2">
-                    Absolutely! Every piece of text you highlight, every
-                    reflection you write, and every tag you add becomes
-                    searchable. Whether you're looking for a specific quote, a
-                    particular insight, or content from a certain time period,
-                    Recall's search functionality helps you rediscover your
-                    knowledge instantly.
-                  </AccordionContent>
-                </AccordionItem>
-
-                <AccordionItem
-                  value="item-6"
-                  className="border border-slate-200 dark:border-slate-700 rounded-lg px-6 bg-white dark:bg-slate-900/50 hover:shadow-lg transition-all duration-300"
-                >
-                  <AccordionTrigger className="text-slate-900 dark:text-slate-100 hover:no-underline">
-                    <div className="flex items-center gap-3">
-                      <Clock className="w-5 h-5 text-slate-600 dark:text-slate-400" />
-                      How does the timeline view help with learning?
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="text-slate-600 dark:text-slate-400 pt-2">
-                    The timeline creates a visual story of your intellectual
-                    journey. See how your interests evolved, revisit insights
-                    from months ago, and notice connections between ideas you
-                    captured at different times. This chronological view helps
-                    you build upon previous learning and see the bigger picture
-                    of your knowledge development.
+                  <AccordionContent>
+                    Yes! You can export your highlights in various formats including PDF, Markdown, and JSON. We're also working on integrations with popular note-taking apps.
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section id="cta" className="py-24 bg-white dark:bg-black">
-          <div className="container mx-auto px-2 text-center">
-            <div className="max-w-2xl mx-auto animate-on-scroll">
-              <h2 className="text-4xl font-bold mb-6 text-slate-900 dark:text-slate-100">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">Start Your Learning Journey</span>
-              </h2>
-              <p className="text-slate-600 dark:text-slate-300 mb-8">
-                Transform how you capture and reflect on knowledge. Begin
-                building your personal timeline of insights today.
-              </p>
-              <a
-                href="/dashboard"
-                className="inline-flex items-center px-8 py-4 text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 rounded-full transition-all duration-300 text-lg font-medium shadow-lg hover:shadow-xl hover:scale-105"
-              >
-                Begin Capturing
-                <ArrowUpRight className="ml-2 w-5 h-5" />
-              </a>
             </div>
           </div>
         </section>
