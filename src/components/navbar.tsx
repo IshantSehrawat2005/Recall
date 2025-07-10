@@ -44,14 +44,14 @@ export default function Navbar() {
         </Link>
         <div className="flex-1 flex justify-center">
           <div className="flex gap-2 md:gap-6 items-center">
-            <Link href="/dashboard" className="text-base font-medium text-gray-700 dark:text-gray-200 hover:text-primary transition-colors">
-              <span className="hover:scale-105 transition-transform">Dashboard</span>
+            <Link href="/dashboard" className="px-5 py-2 rounded-full text-base font-medium text-white bg-black border-2 border-transparent hover:border-gradient-to-r hover:from-purple-500 hover:to-pink-500 transition-all">
+              Dashboard
             </Link>
-            <Link href="/graph" className="text-base font-medium text-gray-700 dark:text-gray-200 hover:text-primary transition-colors">
-              <span className="hover:scale-105 transition-transform">Graph</span>
+            <Link href="/graph" className="px-5 py-2 rounded-full text-base font-medium text-white bg-black border-2 border-transparent hover:border-gradient-to-r hover:from-green-400 hover:to-blue-500 transition-all">
+              Graph
             </Link>
-            <Link href="/groups" className="text-base font-medium text-gray-700 dark:text-gray-200 hover:text-primary transition-colors">
-              <span className="hover:scale-105 transition-transform">Community</span>
+            <Link href="/groups" className="px-5 py-2 rounded-full text-base font-medium text-white bg-black border-2 border-transparent hover:border-gradient-to-r hover:from-yellow-400 hover:to-pink-500 transition-all">
+              Community
             </Link>
           </div>
         </div>

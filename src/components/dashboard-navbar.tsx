@@ -77,11 +77,11 @@ export default function DashboardNavbar() {
 
   return (
     <nav className="border-b border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-black/80 backdrop-blur-sm sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-4">
+      <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <Link href="/" className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Recall
+          <Link href="/" className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">Recall</span>
           </Link>
 
           {/* Desktop Navigation */}

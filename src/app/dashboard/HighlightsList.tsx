@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { createClient } from '../../../supabase/client';
 import HighlightCard from './HighlightCard';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -16,47 +16,56 @@ interface Highlight {
   created_at: string;
 }
 
-export default function HighlightsList() {
+// Add prop for registering refresh callback
+export default function HighlightsList({ onRefreshRegister }: { onRefreshRegister?: (cb: () => void) => void }) {
   const [highlights, setHighlights] = useState<Highlight[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchHighlights = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const supabase = createClient();
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) {
-          setHighlights([]);
-          setLoading(false);
-          return;
-        }
-        const { data, error } = await supabase
-          .from('highlights')
-          .select('*')
-          .eq('user_id', user.id)
-          .order('created_at', { ascending: false });
-        if (error) {
-          setError('Failed to fetch highlights.');
-        } else {
-          setHighlights(data || []);
-        }
-      } catch (err) {
-        setError('An unexpected error occurred.');
-      } finally {
+  // Extract fetch logic so it can be called from parent
+  const fetchHighlights = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        setHighlights([]);
         setLoading(false);
+        return;
       }
-    };
-    fetchHighlights();
+      const { data, error } = await supabase
+        .from('highlights')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
+      if (error) {
+        setError('Failed to fetch highlights.');
+      } else {
+        setHighlights(data || []);
+      }
+    } catch (err) {
+      setError('An unexpected error occurred.');
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchHighlights();
+    if (onRefreshRegister) {
+      onRefreshRegister(fetchHighlights);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchHighlights]);
 
   if (loading) {
     return (
-      <div className="space-y-4">
-        {[...Array(3)].map((_, i) => (
-          <Skeleton key={i} className="h-32 w-full rounded-2xl" />
+      <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6">
+        {[...Array(8)].map((_, i) => (
+          <div key={i} className="break-inside-avoid">
+            <Skeleton className="h-48 w-full rounded-2xl" />
+          </div>
         ))}
       </div>
     );
@@ -77,9 +86,11 @@ export default function HighlightsList() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6">
       {highlights.map((h) => (
-        <HighlightCard key={h.id} {...h} />
+        <div key={h.id} className="break-inside-avoid">
+          <HighlightCard {...h} />
+        </div>
       ))}
     </div>
   );

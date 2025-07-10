@@ -57,7 +57,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <SessionManager timeoutDays={7}>
-            {children}
+            {/* Sidebar removed from global layout */}
+            <main className="min-h-screen transition-all duration-300">
+              {children}
+            </main>
             <SessionTimeoutNotification timeoutDays={7} warningDays={1} />
           </SessionManager>
         </ThemeProvider>

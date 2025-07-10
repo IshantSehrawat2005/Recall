@@ -138,8 +138,8 @@ export default function ProfilePage() {
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
-              Profile
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+              Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">Profile</span>
             </h1>
             <p className="text-muted-foreground">
               Manage your account settings and preferences
@@ -149,7 +149,7 @@ export default function ProfilePage() {
           <div className="grid md:grid-cols-3 gap-8">
             {/* Profile Card */}
             <div className="md:col-span-1">
-              <Card className="backdrop-blur-xl bg-white/70 dark:bg-black/70 border border-white/20 shadow-2xl">
+              <Card className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-lg">
                 <CardHeader className="text-center">
                   <div className="flex justify-center mb-4">
                     <Avatar className="h-24 w-24">
@@ -176,7 +176,7 @@ export default function ProfilePage() {
 
             {/* Profile Details */}
             <div className="md:col-span-2">
-              <Card className="backdrop-blur-xl bg-white/70 dark:bg-black/70 border border-white/20 shadow-2xl">
+              <Card className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-lg">
                 <CardHeader>
                   <div className="flex justify-between items-center">
                     <CardTitle>Profile Information</CardTitle>

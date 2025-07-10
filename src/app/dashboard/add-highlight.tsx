@@ -72,9 +72,9 @@ export default function AddHighlightForm() {
 
   return (
     <div className="max-w-xl mx-auto mt-8">
-      <div className="bg-white dark:bg-black rounded-2xl border border-gray-200 dark:border-gray-800 shadow-md p-8">
-        <h2 className="text-2xl font-bold mb-6 text-center">
-          Add a New Highlight
+      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg p-8">
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-gray-100">
+          Add a New <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">Highlight</span>
         </h2>
         <form className="space-y-5" onSubmit={handleSubmit}>
           <div>

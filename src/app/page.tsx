@@ -2,7 +2,7 @@
 
 import Footer from "@/components/footer";
 import Hero from "@/components/hero";
-import Navbar from "@/components/navbar";
+import Navbar from '@/components/navbar';
 import {
   ArrowUpRight,
   BookOpen,
@@ -55,13 +55,25 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-black relative overflow-hidden">
-      {/* Animated gradient blobs for interactivity (removed for pure black) */}
+      <Navbar />
+      {/* Hero Heading */}
+      <section className="pt-16 pb-8 text-center">
+        <h1 className="text-5xl md:text-7xl font-extrabold leading-tight mb-4">
+          Capture <span className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">Insights</span> from Every Learning Moment
+        </h1>
+        <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mt-4">
+          Transform your highlights into knowledge. Organize, contextualize, and discover patterns in your learning journey—all in one intelligent workspace.
+        </p>
+        <div className="mt-8 flex justify-center">
+          <a href="/sign-up">
+            <button className="px-8 py-4 rounded-full bg-black text-white font-bold text-lg shadow-2xl border-2 border-transparent hover:border-gradient-to-r hover:from-purple-500 hover:to-pink-500 transition-all">
+              Get Started
+            </button>
+          </a>
+        </div>
+      </section>
       {/* Main content */}
       <div className="relative z-10 max-w-7xl mx-auto px-2 sm:px-4">
-        <Navbar />
-        <section id="hero" className="mb-4">
-          <Hero />
-        </section>
         {/* How it works / feature icons section */}
         <section id="how-it-works" className="mb-20 mt-8">
           <div className="container mx-auto px-6 sm:px-8 md:px-16">
@@ -70,8 +82,8 @@ export default function Home() {
                 <Lightbulb className="w-3 h-3 mr-1" />
                 Core Features
               </Badge>
-              <h2 className="text-4xl md:text-5xl font-extrabold animated-gradient text-3d text-center mb-4 animate-fade-in-up">
-                Organize, <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-500 hover:from-cyan-500 hover:to-teal-400 transition-colors duration-300 cursor-pointer">Contextualize</span> & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500 hover:from-pink-500 hover:to-purple-600 transition-colors duration-300 cursor-pointer">Discover</span> Your Learning
+              <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 animate-fade-in-up text-gray-900 dark:text-gray-100">
+                Organize, <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">Contextualize</span> & <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-blue-600">Discover</span> Your Learning
               </h2>
               <p className="text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
                 Save highlights from any website, organize by topics, add
@@ -80,8 +92,8 @@ export default function Home() {
               </p>
             </div>
             <div className="grid md:grid-cols-3 gap-12 md:gap-x-20 md:gap-y-16">
-              {/* Cards with glass effect */}
-              <Card className="card-animate glass rounded-2xl border border-white/20 shadow-2xl p-6 mb-4 animate-fade-in-up">
+              {/* Cards with improved styling */}
+              <Card className="card-animate bg-black border border-gray-900 text-white shadow-2xl hover:shadow-3xl hover:scale-105 hover:-rotate-1 transition-all duration-300 p-6 mb-4 animate-fade-in-up">
                 <CardHeader>
                   <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center mb-4 transition-transform duration-300 hover:rotate-12">
                     <BookOpen className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
@@ -97,7 +109,7 @@ export default function Home() {
                 </CardHeader>
               </Card>
 
-              <Card className="card-animate glass rounded-2xl border border-white/20 shadow-2xl p-6 mb-4 animate-fade-in-up">
+              <Card className="card-animate bg-black border border-gray-900 text-white shadow-2xl hover:shadow-3xl hover:scale-105 hover:-rotate-1 transition-all duration-300 p-6 mb-4 animate-fade-in-up">
                 <CardHeader>
                   <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-4 transition-transform duration-300 hover:rotate-12">
                     <Brain className="w-6 h-6 text-purple-600 dark:text-purple-400" />
@@ -113,7 +125,7 @@ export default function Home() {
                 </CardHeader>
               </Card>
 
-              <Card className="card-animate glass rounded-2xl border border-white/20 shadow-2xl p-6 mb-4 animate-fade-in-up">
+              <Card className="card-animate bg-black border border-gray-900 text-white shadow-2xl hover:shadow-3xl hover:scale-105 hover:-rotate-1 transition-all duration-300 p-6 mb-4 animate-fade-in-up">
                 <CardHeader>
                   <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg flex items-center justify-center mb-4 transition-transform duration-300 hover:rotate-12">
                     <BarChart3 className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
@@ -129,7 +141,7 @@ export default function Home() {
                 </CardHeader>
               </Card>
 
-              <Card className="card-animate glass rounded-2xl border border-white/20 shadow-2xl p-6 mb-4 animate-fade-in-up">
+              <Card className="card-animate bg-black border border-gray-900 text-white shadow-2xl hover:shadow-3xl hover:scale-105 hover:-rotate-1 transition-all duration-300 p-6 mb-4 animate-fade-in-up">
                 <CardHeader>
                   <div className="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-lg flex items-center justify-center mb-4 transition-transform duration-300 hover:rotate-12">
                     <Lightbulb className="w-6 h-6 text-amber-600 dark:text-amber-400" />
@@ -145,7 +157,7 @@ export default function Home() {
                 </CardHeader>
               </Card>
 
-              <Card className="card-animate glass rounded-2xl border border-white/20 shadow-2xl p-6 mb-4 animate-fade-in-up">
+              <Card className="card-animate bg-black border border-gray-900 text-white shadow-2xl hover:shadow-3xl hover:scale-105 hover:-rotate-1 transition-all duration-300 p-6 mb-4 animate-fade-in-up">
                 <CardHeader>
                   <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-4 transition-transform duration-300 hover:rotate-12">
                     <Heart className="w-6 h-6 text-blue-600 dark:text-blue-400" />
@@ -161,7 +173,7 @@ export default function Home() {
                 </CardHeader>
               </Card>
 
-              <Card className="card-animate glass rounded-2xl border border-white/20 shadow-2xl p-6 mb-4 animate-fade-in-up">
+              <Card className="card-animate bg-black border border-gray-900 text-white shadow-2xl hover:shadow-3xl hover:scale-105 hover:-rotate-1 transition-all duration-300 p-6 mb-4 animate-fade-in-up">
                 <CardHeader>
                   <div className="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center justify-center mb-4 transition-transform duration-300 hover:rotate-12">
                     <Search className="w-6 h-6 text-slate-600 dark:text-slate-400" />
@@ -187,8 +199,8 @@ export default function Home() {
                 <Clock className="w-3 h-3 mr-1" />
                 How It Works
               </Badge>
-              <h2 className="text-4xl md:text-5xl font-extrabold animated-gradient text-3d text-center mb-4 animate-fade-in-up">
-                Simple Steps to <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Organized Learning</span>
+              <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 animate-fade-in-up text-gray-900 dark:text-gray-100">
+                Simple Steps to <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">Organized Learning</span>
               </h2>
               <p className="text-lg text-muted-foreground text-center mb-8 animate-fade-in-up">
                 Get started with Recall in just a few simple steps
@@ -237,8 +249,8 @@ export default function Home() {
                 <Search className="w-3 h-3 mr-1" />
                 FAQ
               </Badge>
-              <h2 className="text-4xl md:text-5xl font-extrabold animated-gradient text-3d text-center mb-4 animate-fade-in-up">
-                Frequently Asked <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Questions</span>
+              <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 animate-fade-in-up text-gray-900 dark:text-gray-100">
+                Frequently Asked <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">Questions</span>
               </h2>
             </div>
 

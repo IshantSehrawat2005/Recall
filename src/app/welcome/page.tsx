@@ -112,8 +112,8 @@ export default function WelcomePage() {
       {/* Navigation */}
       <div className="relative z-20 p-4">
         <div className="flex justify-between items-center max-w-4xl mx-auto">
-          <Link href="/" className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Recall
+          <Link href="/" className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">Recall</span>
           </Link>
                       <div className="flex gap-4">
               <Link href="/dashboard">
@@ -145,13 +145,13 @@ export default function WelcomePage() {
               </div>
             </div>
             
-            <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-6">
-              Welcome to Recall
+            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+              Welcome to <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">Recall</span>
             </h1>
             
             <div className="text-2xl md:text-3xl text-foreground mb-4">
               Hello,{' '}
-              <span className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent font-bold">
+              <span className="bg-gradient-to-r from-blue-600 to-emerald-500 bg-clip-text text-transparent font-bold">
                 {userProfile?.display_name || userProfile?.name || 'there'}!
               </span>
             </div>
@@ -166,31 +166,31 @@ export default function WelcomePage() {
 
           {/* Feature Cards */}
           <div className="grid md:grid-cols-3 gap-6 mb-12">
-            <div className="backdrop-blur-xl bg-white/70 dark:bg-black/70 rounded-2xl border border-white/20 shadow-2xl p-8 text-center hover:shadow-3xl transition-all duration-500 hover:scale-105 group">
-              <div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-full p-4 w-16 h-16 mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+            <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg p-8 text-center hover:shadow-xl transition-all duration-300 hover:scale-105 group">
+              <div className="bg-gradient-to-r from-blue-600 to-emerald-500 rounded-full p-4 w-16 h-16 mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                 <BookOpen className="h-8 w-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">Capture Everything</h3>
+              <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Capture Everything</h3>
               <p className="text-muted-foreground">
                 Save highlights from web pages, YouTube videos, PDFs, and more with just a click.
               </p>
             </div>
 
-            <div className="backdrop-blur-xl bg-white/70 dark:bg-black/70 rounded-2xl border border-white/20 shadow-2xl p-8 text-center hover:shadow-3xl transition-all duration-500 hover:scale-105 group">
-              <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-full p-4 w-16 h-16 mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+            <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg p-8 text-center hover:shadow-xl transition-all duration-300 hover:scale-105 group">
+              <div className="bg-gradient-to-r from-emerald-500 to-blue-600 rounded-full p-4 w-16 h-16 mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                 <Brain className="h-8 w-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">AI-Powered Insights</h3>
+              <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">AI-Powered Insights</h3>
               <p className="text-muted-foreground">
                 Get smart summaries, pattern detection, and personalized learning recommendations.
               </p>
             </div>
 
-            <div className="backdrop-blur-xl bg-white/70 dark:bg-black/70 rounded-2xl border border-white/20 shadow-2xl p-8 text-center hover:shadow-3xl transition-all duration-500 hover:scale-105 group">
-              <div className="bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full p-4 w-16 h-16 mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+            <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg p-8 text-center hover:shadow-xl transition-all duration-300 hover:scale-105 group">
+              <div className="bg-gradient-to-r from-blue-600 to-emerald-500 rounded-full p-4 w-16 h-16 mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                 <Search className="h-8 w-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">Smart Organization</h3>
+              <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Smart Organization</h3>
               <p className="text-muted-foreground">
                 Organize your knowledge with tags, categories, and intelligent search capabilities.
               </p>
@@ -199,7 +199,7 @@ export default function WelcomePage() {
 
           {/* Get Started Section */}
           <div className="text-center">
-            <div className="backdrop-blur-xl bg-white/70 dark:bg-black/70 rounded-2xl border border-white/20 shadow-2xl p-8 mb-8">
+            <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg p-8 mb-8">
               <div className="flex items-center justify-center mb-4">
                 <Sparkles className="h-6 w-6 text-yellow-500 mr-2" />
                 <h2 className="text-2xl font-semibold">Ready to Start Your Journey?</h2>
@@ -210,7 +210,7 @@ export default function WelcomePage() {
               
               <Button 
                 onClick={handleGetStarted}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 px-8 py-4 text-lg font-semibold group"
+                className="bg-gradient-to-r from-blue-600 to-emerald-500 hover:from-blue-700 hover:to-emerald-600 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 px-8 py-4 text-lg font-semibold group"
               >
                 {isNewUser ? `Get Started (${countdown}s)` : 'Get Started'}
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
@@ -219,15 +219,15 @@ export default function WelcomePage() {
 
             {/* Quick Stats */}
             <div className="grid md:grid-cols-3 gap-4 text-sm text-muted-foreground">
-              <div className="backdrop-blur-sm bg-white/30 dark:bg-black/30 rounded-lg p-4">
+              <div className="bg-white/50 dark:bg-gray-900/50 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
                 <div className="font-semibold text-foreground">Profile Complete</div>
                 <div>All set up and ready to go</div>
               </div>
-              <div className="backdrop-blur-sm bg-white/30 dark:bg-black/30 rounded-lg p-4">
+              <div className="bg-white/50 dark:bg-gray-900/50 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
                 <div className="font-semibold text-foreground">Privacy First</div>
                 <div>Your data stays yours</div>
               </div>
-              <div className="backdrop-blur-sm bg-white/30 dark:bg-black/30 rounded-lg p-4">
+              <div className="bg-white/50 dark:bg-gray-900/50 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
                 <div className="font-semibold text-foreground">Cross-Platform</div>
                 <div>Works everywhere you do</div>
               </div>
