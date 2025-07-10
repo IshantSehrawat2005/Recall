@@ -1,10 +1,14 @@
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
+import { checkSupabaseEnvVars } from "../src/utils/env";
 
 export const updateSession = async (request: NextRequest) => {
   // This `try/catch` block is only here for the interactive tutorial.
   // Feel free to remove once you have Supabase connected.
   try {
+    // Check if environment variables are available
+    const envVars = checkSupabaseEnvVars();
+
     // Create an unmodified response
     let response = NextResponse.next({
       request: {
@@ -13,8 +17,8 @@ export const updateSession = async (request: NextRequest) => {
     });
 
     const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      envVars.NEXT_PUBLIC_SUPABASE_URL as string,
+      envVars.NEXT_PUBLIC_SUPABASE_ANON_KEY as string,
       {
         cookies: {
           getAll() {
@@ -23,7 +27,7 @@ export const updateSession = async (request: NextRequest) => {
               value,
             }));
           },
-          setAll(cookiesToSet) {
+          setAll(cookiesToSet: Array<{ name: string; value: string; options?: any }>) {
             cookiesToSet.forEach(({ name, value, options }) => {
               request.cookies.set(name, value);
               response = NextResponse.next({
@@ -56,6 +60,7 @@ export const updateSession = async (request: NextRequest) => {
     // If you are here, a Supabase client could not be created!
     // This is likely because you have not set up environment variables.
     // Check out http://localhost:3000 for Next Steps.
+    console.error("Middleware error:", e);
     return NextResponse.next({
       request: {
         headers: request.headers,

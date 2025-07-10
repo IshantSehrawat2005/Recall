@@ -3,7 +3,23 @@ import { InfoIcon, UserCircle } from "lucide-react";
 import { redirect } from "next/navigation";
 import { createClient } from "../../../supabase/server";
 
+// Force dynamic rendering to prevent static generation issues
+export const dynamic = 'force-dynamic';
+
 export default async function Dashboard() {
+  // Check if environment variables are available
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    console.error('Missing Supabase environment variables');
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Configuration Error</h1>
+          <p className="text-muted-foreground">Supabase configuration is missing.</p>
+        </div>
+      </div>
+    );
+  }
+
   const supabase = await createClient();
 
   const {

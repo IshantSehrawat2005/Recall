@@ -1,12 +1,16 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { checkSupabaseEnvVars } from "../src/utils/env";
 
 export const createClient = async () => {
   const cookieStore = cookies();
 
+  // Check if environment variables are available
+  const envVars = checkSupabaseEnvVars();
+
   return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    envVars.NEXT_PUBLIC_SUPABASE_URL as string,
+    envVars.NEXT_PUBLIC_SUPABASE_ANON_KEY as string,
     {
       cookies: {
         getAll() {
@@ -15,7 +19,7 @@ export const createClient = async () => {
             value,
           }));
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: Array<{ name: string; value: string; options?: any }>) {
           cookiesToSet.forEach(({ name, value, options }) => {
             cookieStore.set(name, value, options);
           });
