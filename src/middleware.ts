@@ -33,6 +33,18 @@ export async function middleware(req: NextRequest) {
     console.error('Auth session error:', error)
   }
 
+  // Check if session is expired and redirect to sign-in
+  if (session && session.expires_at) {
+    const expiresAt = session.expires_at * 1000 // Convert to milliseconds
+    const now = Date.now()
+    
+    if (now > expiresAt) {
+      // Session has expired, redirect to sign-in
+      const signInUrl = new URL('/sign-in?message=session_expired', req.url)
+      return NextResponse.redirect(signInUrl)
+    }
+  }
+
   return res
 }
 

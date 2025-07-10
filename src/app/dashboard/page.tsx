@@ -1,52 +1,32 @@
-import DashboardNavbar from "@/components/dashboard-navbar";
-import { InfoIcon, UserCircle } from "lucide-react";
-import { redirect } from "next/navigation";
-import { createClient } from "../../../supabase/server";
+"use client";
 
-export default async function Dashboard() {
-  const supabase = await createClient();
+import AddHighlightForm from "./add-highlight";
+import HighlightsList from "./HighlightsList";
+import { useRef } from "react";
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return redirect("/sign-in");
-  }
-
-
+export default function DashboardPage() {
+  const listRef = useRef<{ refresh: () => void } | null>(null);
 
   return (
-    <>
-      <DashboardNavbar />
-      <main className="w-full">
-        <div className="container mx-auto px-4 py-8 flex flex-col gap-8">
-          {/* Header Section */}
-          <header className="flex flex-col gap-4">
-            <h1 className="text-3xl font-bold">Dashboard</h1>
-            <div className="bg-secondary/50 text-sm p-3 px-4 rounded-lg text-muted-foreground flex gap-2 items-center">
-              <InfoIcon size="14" />
-              <span>This is a protected page only visible to authenticated users</span>
-            </div>
-          </header>
-
-          {/* User Profile Section */}
-          <section className="bg-card rounded-xl p-6 border shadow-sm">
-            <div className="flex items-center gap-4 mb-6">
-              <UserCircle size={48} className="text-primary" />
-              <div>
-                <h2 className="font-semibold text-xl">User Profile</h2>
-                <p className="text-sm text-muted-foreground">{user.email}</p>
-              </div>
-            </div>
-            <div className="bg-muted/50 rounded-lg p-4 overflow-hidden">
-              <pre className="text-xs font-mono max-h-48 overflow-auto">
-                {JSON.stringify(user, null, 2)}
-              </pre>
-            </div>
-          </section>
+    <div className="min-h-screen bg-black dark:bg-black relative">
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-3xl mx-auto">
+          <div className="mb-10 text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-2 tracking-tight text-center">
+              Your Knowledge Dashboard
+            </h1>
+            <p className="text-lg text-muted-foreground max-w-xl mx-auto">
+              Effortlessly capture, organize, and discover insights from your highlights.
+            </p>
+          </div>
+          <div className="mb-10">
+            <AddHighlightForm onHighlightAdded={() => listRef.current?.refresh()} />
+          </div>
+          <div className="mb-8">
+            <HighlightsList ref={listRef} />
+          </div>
         </div>
-      </main>
-    </>
+      </div>
+    </div>
   );
 }
