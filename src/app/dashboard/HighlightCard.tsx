@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
-import { Badge } from '@/components/ui/badge';
-import { CheckCircle, Trash2 } from 'lucide-react';
+import React, { useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { CheckCircle, Trash2, Edit3 } from "lucide-react";
+import EditHighlightDialog from "./edit-highlight-dialog";
+import { createClient } from "../../../supabase/client";
 
-interface HighlightCardProps {
+interface Highlight {
+  id: string;
   text: string;
   source: string;
   tags: string[];
@@ -11,12 +14,27 @@ interface HighlightCardProps {
   created_at: string;
 }
 
-export default function HighlightCard({ text, source, tags, mood, reflection, created_at }: HighlightCardProps) {
+interface HighlightCardProps extends Highlight {
+  onUpdate: (updatedHighlight: Highlight) => void;
+  onDelete: (highlightId: string) => void;
+}
+
+export default function HighlightCard({
+  id,
+  text,
+  source,
+  tags,
+  mood,
+  reflection,
+  created_at,
+  onUpdate,
+  onDelete,
+}: HighlightCardProps) {
   const [summary, setSummary] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   // Q&A state
-  const [question, setQuestion] = useState('');
+  const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState<string | null>(null);
   const [qaLoading, setQaLoading] = useState(false);
   // Pattern detection state
@@ -27,15 +45,15 @@ export default function HighlightCard({ text, source, tags, mood, reflection, cr
     setLoading(true);
     setSummary(null);
     try {
-      const res = await fetch('/api/ai-summary', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/ai-summary", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text }),
       });
       const data = await res.json();
       setSummary(data.summary);
     } catch (err) {
-      setSummary('Failed to get summary.');
+      setSummary("Failed to get summary.");
     }
     setLoading(false);
   };
@@ -44,15 +62,15 @@ export default function HighlightCard({ text, source, tags, mood, reflection, cr
     setQaLoading(true);
     setAnswer(null);
     try {
-      const res = await fetch('/api/ai-qa', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/ai-qa", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question, context: text }),
       });
       const data = await res.json();
       setAnswer(data.answer);
     } catch (err) {
-      setAnswer('Failed to get answer.');
+      setAnswer("Failed to get answer.");
     }
     setQaLoading(false);
   };
@@ -61,9 +79,9 @@ export default function HighlightCard({ text, source, tags, mood, reflection, cr
     setPatternLoading(true);
     setKeywords([]);
     try {
-      const res = await fetch('/api/ai-pattern', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/ai-pattern", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text }),
       });
       const data = await res.json();
@@ -74,25 +92,56 @@ export default function HighlightCard({ text, source, tags, mood, reflection, cr
     setPatternLoading(false);
   };
 
-  // Demo delete (no backend)
-  const [deleted, setDeleted] = useState(false);
-  if (deleted) return null;
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    if (!confirm("Are you sure you want to delete this highlight?")) return;
+
+    setDeleting(true);
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.from("highlights").delete().eq("id", id);
+
+      if (error) {
+        console.error("Error deleting highlight:", error);
+        return;
+      }
+
+      onDelete(id);
+    } catch (err) {
+      console.error("Unexpected error:", err);
+    } finally {
+      setDeleting(false);
+    }
+  };
+
+  const highlight = { id, text, source, tags, mood, reflection, created_at };
 
   return (
     <div className="bg-white dark:bg-black rounded-2xl border border-gray-200 dark:border-gray-800 shadow-md p-6 mb-4 transition-all hover:shadow-lg">
       <div className="mb-2 flex flex-wrap gap-2">
         {tags.map((tag) => (
-          <Badge key={tag} variant="secondary" className="text-xs px-2 py-1 rounded-full">
+          <Badge
+            key={tag}
+            variant="secondary"
+            className="text-xs px-2 py-1 rounded-full"
+          >
             #{tag}
           </Badge>
         ))}
         {mood && (
-          <Badge variant="outline" className="text-xs px-2 py-1 rounded-full border-blue-400 text-blue-600">
+          <Badge
+            variant="outline"
+            className="text-xs px-2 py-1 rounded-full border-blue-400 text-blue-600"
+          >
             {mood}
           </Badge>
         )}
       </div>
-      <div className={`text-lg font-semibold mb-2 text-slate-900 dark:text-slate-100 transition-all ${done ? 'line-through opacity-60' : ''}`}>
+      <div
+        className={`text-lg font-semibold mb-2 text-slate-900 dark:text-slate-100 transition-all ${done ? "line-through opacity-60" : ""}`}
+      >
         {text}
       </div>
       {reflection && (
@@ -101,7 +150,12 @@ export default function HighlightCard({ text, source, tags, mood, reflection, cr
         </div>
       )}
       <div className="flex justify-between items-center text-xs text-slate-400 dark:text-slate-500 mt-2">
-        <a href={source} target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-600">
+        <a
+          href={source}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:text-blue-600"
+        >
           {source}
         </a>
         <span>{new Date(created_at).toLocaleString()}</span>
@@ -113,7 +167,7 @@ export default function HighlightCard({ text, source, tags, mood, reflection, cr
           disabled={loading}
           className="rounded-lg px-4 py-2 text-sm font-semibold border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all w-fit"
         >
-          {loading ? 'Summarizing...' : 'Get AI Summary'}
+          {loading ? "Summarizing..." : "Get AI Summary"}
         </button>
         {summary && (
           <div className="mt-2 p-2 bg-blue-50 dark:bg-blue-900/30 rounded text-sm">
@@ -126,7 +180,7 @@ export default function HighlightCard({ text, source, tags, mood, reflection, cr
         <input
           type="text"
           value={question}
-          onChange={e => setQuestion(e.target.value)}
+          onChange={(e) => setQuestion(e.target.value)}
           placeholder="Ask a question about this highlight..."
           className="border rounded px-2 py-1 text-sm"
         />
@@ -135,7 +189,7 @@ export default function HighlightCard({ text, source, tags, mood, reflection, cr
           disabled={qaLoading || !question}
           className="rounded-lg px-4 py-2 text-sm font-semibold border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all w-fit"
         >
-          {qaLoading ? 'Answering...' : 'Ask AI'}
+          {qaLoading ? "Answering..." : "Ask AI"}
         </button>
         {answer && (
           <div className="mt-2 p-2 bg-purple-50 dark:bg-purple-900/30 rounded text-sm">
@@ -150,31 +204,46 @@ export default function HighlightCard({ text, source, tags, mood, reflection, cr
           disabled={patternLoading}
           className="rounded-lg px-4 py-2 text-sm font-semibold border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all w-fit"
         >
-          {patternLoading ? 'Detecting...' : 'Detect Patterns'}
+          {patternLoading ? "Detecting..." : "Detect Patterns"}
         </button>
         {keywords.length > 0 && (
           <div className="mt-2 p-2 bg-green-50 dark:bg-green-900/30 rounded text-sm">
-            <strong>Keywords:</strong> {keywords.join(', ')}
+            <strong>Keywords:</strong> {keywords.join(", ")}
           </div>
         )}
       </div>
       {/* Actions */}
       <div className="flex gap-2 mt-4">
         <button
-          onClick={() => setDone(d => !d)}
-          className={`rounded-full p-2 flex items-center justify-center border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all ${done ? 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300' : ''}`}
-          title={done ? 'Mark as not done' : 'Mark as done'}
+          onClick={() => setDone((d) => !d)}
+          className={`rounded-full p-2 flex items-center justify-center border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all ${done ? "bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300" : ""}`}
+          title={done ? "Mark as not done" : "Mark as done"}
         >
           <CheckCircle className="h-5 w-5" />
         </button>
         <button
-          onClick={() => setDeleted(true)}
-          className="rounded-full p-2 flex items-center justify-center border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 hover:bg-red-100 dark:hover:bg-red-900 text-red-600 dark:text-red-400 transition-all"
+          onClick={() => setEditDialogOpen(true)}
+          className="rounded-full p-2 flex items-center justify-center border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 hover:bg-blue-100 dark:hover:bg-blue-900 text-blue-600 dark:text-blue-400 transition-all"
+          title="Edit highlight"
+        >
+          <Edit3 className="h-5 w-5" />
+        </button>
+        <button
+          onClick={handleDelete}
+          disabled={deleting}
+          className="rounded-full p-2 flex items-center justify-center border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 hover:bg-red-100 dark:hover:bg-red-900 text-red-600 dark:text-red-400 transition-all disabled:opacity-50"
           title="Delete highlight"
         >
           <Trash2 className="h-5 w-5" />
         </button>
       </div>
+
+      <EditHighlightDialog
+        highlight={highlight}
+        open={editDialogOpen}
+        onOpenChange={setEditDialogOpen}
+        onUpdate={onUpdate}
+      />
     </div>
   );
-} 
+}

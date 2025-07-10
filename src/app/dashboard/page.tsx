@@ -1,6 +1,6 @@
-import AddHighlightForm from './add-highlight'
-import HighlightsList from './HighlightsList';
-import DashboardNavbar from '@/components/dashboard-navbar';
+import AddHighlightForm from "./add-highlight";
+import HighlightsList from "./HighlightsList";
+import DashboardNavbar from "@/components/dashboard-navbar";
 
 export default function DashboardPage() {
   return (
@@ -15,7 +15,8 @@ export default function DashboardPage() {
               Your Knowledge Dashboard
             </h1>
             <p className="text-lg text-muted-foreground max-w-xl mx-auto">
-              Effortlessly capture, organize, and discover insights from your highlights.
+              Effortlessly capture, organize, and discover insights from your
+              highlights.
             </p>
           </div>
 
@@ -31,5 +32,5 @@ export default function DashboardPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
