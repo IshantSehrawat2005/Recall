@@ -1,141 +1,140 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Button } from "@/components/ui/button"
-import { createClient } from "../../../supabase/client"
-import { Plus } from "lucide-react"
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { createClient } from "../../../supabase/client";
+import { Plus, Link as LinkIcon, Sparkles } from "lucide-react";
+import TagInput from "@/components/ui/TagInput";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
-const MOODS = [
-  { value: "neutral", label: "😐 Neutral" },
-  { value: "happy", label: "😊 Happy" },
-  { value: "curious", label: "🤔 Curious" },
-  { value: "inspired", label: "✨ Inspired" },
-  { value: "confused", label: "😕 Confused" },
-  { value: "excited", label: "😃 Excited" },
-  { value: "sad", label: "😢 Sad" },
-  { value: "angry", label: "😡 Angry" },
-]
-
-export default function AddHighlightForm() {
-  const [highlight, setHighlight] = useState("")
-  const [tags, setTags] = useState("")
-  const [mood, setMood] = useState("")
-  const [reflection, setReflection] = useState("")
-  const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState(false)
-  const [error, setError] = useState("")
-  const supabase = createClient()
+export default function AddHighlightForm({ onHighlightAdded }: { onHighlightAdded?: () => void }) {
+  const [highlight, setHighlight] = useState("");
+  const [source, setSource] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const supabase = createClient();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setError("")
-    setSuccess(false)
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    setSuccess(false);
     try {
       if (!highlight.trim()) {
-        setError("Highlight text is required.")
-        setLoading(false)
-        return
+        setError("Highlight text is required.");
+        setLoading(false);
+        return;
       }
-      const { data: { user } } = await supabase.auth.getUser()
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) {
-        setError("You must be signed in to add a highlight.")
-        setLoading(false)
-        return
+        setError("You must be signed in to add a highlight.");
+        setLoading(false);
+        return;
       }
       const { error: dbError } = await supabase.from("highlights").insert({
         user_id: user.id,
         text: highlight,
-        tags: tags.split(",").map(t => t.trim()).filter(Boolean),
-        mood,
-        reflection,
+        source: source || "https://example.com",
+        tags,
         created_at: new Date().toISOString(),
-      })
+      });
       if (dbError) {
-        setError("Failed to save highlight. Please try again.")
+        setError("Failed to save highlight. Please try again.");
       } else {
-        setSuccess(true)
-        setHighlight("")
-        setTags("")
-        setMood("")
-        setReflection("")
+        setSuccess(true);
+        setHighlight("");
+        setSource("");
+        setTags([]);
+        setTimeout(() => {
+          setSuccess(false);
+          setIsDialogOpen(false);
+          if (onHighlightAdded) onHighlightAdded();
+        }, 1200);
       }
     } catch (err) {
-      setError("Something went wrong. Please try again.")
+      setError("Something went wrong. Please try again.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
-    <div className="max-w-xl mx-auto mt-8">
-      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg p-8">
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-gray-100">
-          Add a New <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">Highlight</span>
-        </h2>
-        <form className="space-y-5" onSubmit={handleSubmit}>
-          <div>
-            <Label htmlFor="highlight">Highlight Text <span className="text-red-500">*</span></Label>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <DialogTrigger asChild>
+        <button className="fab group">
+          <Plus className="h-6 w-6 group-hover:rotate-90 transition-transform duration-300" />
+        </button>
+      </DialogTrigger>
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto glass-card border-white/20">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2 text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <Sparkles className="w-5 h-5 text-blue-600" />
+            Capture New Highlight
+          </DialogTitle>
+        </DialogHeader>
+        <form className="space-y-6" onSubmit={handleSubmit}>
+          <div className="space-y-2">
+            <Label htmlFor="highlight" className="text-sm font-semibold flex items-center gap-2">
+              <span>Highlight Text</span>
+              <span className="text-red-500">*</span>
+            </Label>
             <Textarea
               id="highlight"
               value={highlight}
-              onChange={e => setHighlight(e.target.value)}
+              onChange={(e) => setHighlight(e.target.value)}
               placeholder="Paste or type the text you want to save..."
-              rows={3}
+              rows={4}
               required
-              className="mt-1"
+              className="glass-card resize-none focus:ring-2 focus:ring-blue-500 transition-all"
             />
           </div>
-          <div>
-            <Label htmlFor="tags">Tags <span className="text-xs text-muted-foreground">(comma separated)</span></Label>
+          <div className="space-y-2">
+            <Label htmlFor="source" className="text-sm font-semibold flex items-center gap-2">
+              <LinkIcon className="w-4 h-4" />
+              Source URL
+            </Label>
             <Input
-              id="tags"
-              value={tags}
-              onChange={e => setTags(e.target.value)}
-              placeholder="productivity, ai, learning"
-              className="mt-1"
+              id="source"
+              value={source}
+              onChange={(e) => setSource(e.target.value)}
+              placeholder="https://example.com (optional)"
+              className="glass-card focus:ring-2 focus:ring-blue-500 transition-all"
             />
           </div>
-          <div>
-            <Label htmlFor="mood">Mood/Context</Label>
-            <select
-              id="mood"
-              value={mood}
-              onChange={e => setMood(e.target.value)}
-              className="w-full mt-1 rounded-lg border border-border bg-background px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              <option value="">Select mood/context</option>
-              {MOODS.map(m => (
-                <option key={m.value} value={m.value}>{m.label}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <Label htmlFor="reflection">Personal Reflection</Label>
-            <Textarea
-              id="reflection"
-              value={reflection}
-              onChange={e => setReflection(e.target.value)}
-              placeholder="Add your thoughts, context, or why this matters..."
-              rows={2}
-              className="mt-1"
+          <div className="space-y-2">
+            <Label className="text-sm font-semibold">Tags</Label>
+            <TagInput
+              value={tags}
+              onChange={setTags}
+              placeholder="Add tags to organize your highlight..."
             />
           </div>
           {error && <div className="text-red-500 text-sm text-center">{error}</div>}
           {success && <div className="text-green-600 text-sm text-center">Highlight saved!</div>}
-          <Button
-            type="submit"
-            className="w-full rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 text-base font-semibold flex items-center justify-center gap-2"
-            disabled={loading}
-          >
-            <Plus className={`h-5 w-5 transition-transform ${loading ? 'animate-spin' : ''}`} />
-            {loading ? "Saving..." : "Save Highlight"}
-          </Button>
+          <div className="flex justify-end gap-2">
+            <Button type="button" variant="ghost" onClick={() => setIsDialogOpen(false)} disabled={loading}>
+              Cancel
+            </Button>
+            <Button type="submit" disabled={loading}>
+              {loading ? "Saving..." : "Save Highlight"}
+            </Button>
+          </div>
         </form>
-      </div>
-    </div>
-  )
-} 
+      </DialogContent>
+    </Dialog>
+  );
+}
