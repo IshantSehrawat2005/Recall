@@ -2,6 +2,7 @@ import { signInAction } from "@/app/actions";
 import { FormMessage, Message } from "@/components/form-message";
 import Navbar from "@/components/navbar";
 import { SubmitButton } from "@/components/submit-button";
+import { SignInOAuth } from "@/components/sign-in-oauth";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
@@ -21,6 +22,7 @@ export default async function SignInPage({ searchParams }: LoginProps) {
     );
   }
 
+
   return (
     <>
       <Navbar />
@@ -39,7 +41,12 @@ export default async function SignInPage({ searchParams }: LoginProps) {
                 </Link>
               </p>
             </div>
-
+            <SignInOAuth />
+            <div className="relative flex items-center py-2">
+              <div className="flex-grow border-t border-muted-foreground/20" />
+              <span className="mx-2 text-xs text-muted-foreground">or</span>
+              <div className="flex-grow border-t border-muted-foreground/20" />
+            </div>
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-sm font-medium">
@@ -54,7 +61,6 @@ export default async function SignInPage({ searchParams }: LoginProps) {
                   className="w-full"
                 />
               </div>
-
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
                   <Label htmlFor="password" className="text-sm font-medium">
@@ -77,7 +83,6 @@ export default async function SignInPage({ searchParams }: LoginProps) {
                 />
               </div>
             </div>
-
             <SubmitButton
               className="w-full"
               pendingText="Signing in..."
@@ -85,7 +90,6 @@ export default async function SignInPage({ searchParams }: LoginProps) {
             >
               Sign in
             </SubmitButton>
-
             <FormMessage message={message} />
           </form>
         </div>

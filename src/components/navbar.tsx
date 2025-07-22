@@ -43,33 +43,33 @@ export default function Navbar() {
             priority
           />
         </Link>
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-2 md:gap-4 items-center">
           <ThemeSwitcher />
+          <Link href="/notes">
+            <Button variant="secondary" className="rounded-full px-4 py-2 text-sm font-medium">
+              Notes
+            </Button>
+          </Link>
           {user ? (
             <>
-              <Link
-                href="/dashboard"
-                className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
-              >
-                <Button className="rounded-full">
+              <Link href="/dashboard">
+                <Button className="rounded-full px-4 py-2 text-sm font-medium">
                   Dashboard
                 </Button>
               </Link>
-              <UserProfile  />
+              <UserProfile />
             </>
           ) : (
             <>
-              <Link
-                href="/sign-in"
-                className="px-4 py-2 text-sm font-medium rounded-full text-black dark:text-white bg-white dark:bg-black hover:bg-gray-100 dark:hover:bg-gray-900 border border-gray-300 dark:border-gray-700 transition-colors"
-              >
-                Sign In
+              <Link href="/sign-in">
+                <Button variant="outline" className="rounded-full px-4 py-2 text-sm font-medium">
+                  Sign In
+                </Button>
               </Link>
-              <Link
-                href="/sign-up"
-                className="px-4 py-2 text-sm font-medium rounded-full text-white bg-black dark:bg-white dark:text-black hover:bg-gray-900 dark:hover:bg-gray-200 border border-gray-300 dark:border-gray-700 transition-colors"
-              >
-                Sign Up
+              <Link href="/sign-up">
+                <Button variant="default" className="rounded-full px-4 py-2 text-sm font-medium">
+                  Sign Up
+                </Button>
               </Link>
             </>
           )}
