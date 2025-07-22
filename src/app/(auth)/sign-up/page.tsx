@@ -2,12 +2,13 @@ import { FormMessage, Message } from "@/components/form-message";
 import { SubmitButton } from "@/components/submit-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { OAuthProviders } from "@/components/oauth-providers";
 import Link from "next/link";
 import { SmtpMessage } from "../smtp-message";
 import { signUpAction } from "@/app/actions";
-import Navbar from "@/components/navbar";
 import { UrlProvider } from "@/components/url-provider";
 import { SignUpOAuth } from "@/components/sign-up-oauth";
+import Navbar from "@/components/navbar";
 
 export default async function Signup(props: {
   searchParams: Promise<Message>;
@@ -41,12 +42,7 @@ export default async function Signup(props: {
                   </Link>
                 </p>
               </div>
-              <SignUpOAuth />
-              <div className="relative flex items-center py-2">
-                <div className="flex-grow border-t border-muted-foreground/20" />
-                <span className="mx-2 text-xs text-muted-foreground">or</span>
-                <div className="flex-grow border-t border-muted-foreground/20" />
-              </div>
+
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="full_name" className="text-sm font-medium">
@@ -61,6 +57,7 @@ export default async function Signup(props: {
                     className="w-full"
                   />
                 </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="email" className="text-sm font-medium">
                     Email
@@ -74,6 +71,7 @@ export default async function Signup(props: {
                     className="w-full"
                   />
                 </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="password" className="text-sm font-medium">
                     Password
@@ -89,6 +87,7 @@ export default async function Signup(props: {
                   />
                 </div>
               </div>
+
               <SubmitButton
                 formAction={signUpAction}
                 pendingText="Signing up..."
@@ -96,7 +95,9 @@ export default async function Signup(props: {
               >
                 Sign up
               </SubmitButton>
+
               <FormMessage message={searchParams} />
+              <OAuthProviders />
             </form>
           </UrlProvider>
         </div>

@@ -4,6 +4,8 @@ import "./globals.css";
 import Script from "next/script";
 import { TempoInit } from "@/components/tempo-init";
 import { ThemeProvider } from "@/components/theme-provider";
+import SessionManager from "@/components/session-manager";
+import SessionTimeoutNotification from "@/components/session-timeout-notification";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -54,7 +56,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <SessionManager timeoutDays={7}>
+            {/* Sidebar removed from global layout */}
+            <main className="min-h-screen transition-all duration-300">
+              {children}
+            </main>
+            <SessionTimeoutNotification timeoutDays={7} warningDays={1} />
+          </SessionManager>
         </ThemeProvider>
         <TempoInit />
       </body>

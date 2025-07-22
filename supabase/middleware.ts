@@ -3,8 +3,6 @@ import { type NextRequest, NextResponse } from "next/server";
 import { checkSupabaseEnvVars } from "../src/utils/env";
 
 export const updateSession = async (request: NextRequest) => {
-  // This `try/catch` block is only here for the interactive tutorial.
-  // Feel free to remove once you have Supabase connected.
   try {
     // Check if environment variables are available
     const envVars = checkSupabaseEnvVars();
@@ -43,16 +41,89 @@ export const updateSession = async (request: NextRequest) => {
     );
 
     // This will refresh session if expired - required for Server Components
-    // https://supabase.com/docs/guides/auth/server-side/nextjs
     const { data: { user }, error } = await supabase.auth.getUser();
 
-    // protected routes
-    if (request.nextUrl.pathname.startsWith("/dashboard") && error) {
-      return NextResponse.redirect(new URL("/sign-in", request.url));
+    const { pathname } = request.nextUrl;
+
+    // Public routes that don't require authentication
+    const publicRoutes = ['/', '/sign-in', '/sign-up', '/forgot-password', '/auth/callback'];
+    const isPublicRoute = publicRoutes.some(route => pathname === route || pathname.startsWith(route));
+
+    // Protected routes that require authentication
+    const protectedRoutes = ['/dashboard', '/profile', '/graph', '/groups', '/profile-setup'];
+    const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route));
+
+    // Auth routes (sign-in, sign-up)
+    const authRoutes = ['/sign-in', '/sign-up'];
+    const isAuthRoute = authRoutes.some(route => pathname === route);
+
+    // If user is not authenticated and trying to access protected route
+    if (!user && isProtectedRoute) {
+      const redirectUrl = new URL('/sign-in', request.url);
+      redirectUrl.searchParams.set('redirect', pathname);
+      return NextResponse.redirect(redirectUrl);
     }
 
-    if (request.nextUrl.pathname === "/" && !error) {
-      return NextResponse.redirect(new URL("/", request.url));
+    // If user is authenticated
+    if (user) {
+      // If user is on auth routes (sign-in, sign-up), redirect to appropriate page
+      if (isAuthRoute) {
+        // Check if user has completed profile
+        const { data: userProfile } = await supabase
+          .from('users')
+          .select('profile_completed')
+          .eq('id', user.id)
+          .single();
+
+        if (userProfile?.profile_completed) {
+          // User has completed profile, redirect to dashboard
+          return NextResponse.redirect(new URL('/dashboard', request.url));
+        } else {
+          // User hasn't completed profile, redirect to profile setup
+          return NextResponse.redirect(new URL('/profile-setup', request.url));
+        }
+      }
+
+      // If user is on home page and authenticated, redirect based on profile completion
+      if (pathname === '/') {
+        const { data: userProfile } = await supabase
+          .from('users')
+          .select('profile_completed')
+          .eq('id', user.id)
+          .single();
+
+        if (userProfile?.profile_completed) {
+          return NextResponse.redirect(new URL('/dashboard', request.url));
+        } else {
+          return NextResponse.redirect(new URL('/profile-setup', request.url));
+        }
+      }
+
+      // If user is on profile-setup but has already completed profile, redirect to dashboard
+      if (pathname.startsWith('/profile-setup')) {
+        const { data: userProfile } = await supabase
+          .from('users')
+          .select('profile_completed')
+          .eq('id', user.id)
+          .single();
+
+        if (userProfile?.profile_completed) {
+          return NextResponse.redirect(new URL('/dashboard', request.url));
+        }
+      }
+
+      // If user is on dashboard but hasn't completed profile, redirect to profile setup
+      if (pathname.startsWith('/dashboard')) {
+        const { data: userProfile } = await supabase
+          .from('users')
+          .select('profile_completed')
+          .eq('id', user.id)
+          .single();
+
+        if (!userProfile?.profile_completed) {
+          return NextResponse.redirect(new URL('/profile-setup', request.url));
+        }
+      }
     }
 
     return response;
